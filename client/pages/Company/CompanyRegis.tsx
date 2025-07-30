@@ -1,3 +1,5 @@
+//pages/Company/CompanyRegis.tsx
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"; // Optional if using Next.js 13/14+ with App Router
 
@@ -5,6 +7,11 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router"; // ✅ Changed from react-router-dom
 import styles from "./CompanyRegis.module.scss"; // ✅ Using module-based CSS
+
+
+
+
+
 
 interface CompanyFormData {
   company_name: string;
@@ -214,3 +221,13 @@ const CompanyRegis = () => {
 };
 
 export default CompanyRegis;
+
+
+
+
+
+
+
+
+
+

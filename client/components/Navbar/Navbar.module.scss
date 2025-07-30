@@ -1,0 +1,22 @@
+// Navbar.module.scss
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+
+  box-shadow: $card-box-shadow;
+   position: sticky;
+  top: 0;
+  z-index: 50;
+
+
+  .logo {
+    width: 9rem;
+    margin-right: 0.5rem;
+  }
+
+}

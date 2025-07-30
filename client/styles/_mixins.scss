@@ -1,3 +1,5 @@
+// styles/_mixins.scss
+
 @use "./variables" as *;
 
 @mixin card {
@@ -8,16 +10,13 @@
 }
 
 @mixin main-container {
-  // min-height: 100vh;
   min-height: calc(100vh - 70px);
-
   display: flex;
   flex-direction: column;
   background: $gradient-secondary;
   font-family: $font-family-main;
   color: $color-text-light;
   padding: 0 2rem 2rem 2rem;
-  //  overflow-y: auto;
 }
 
 @mixin input {
@@ -37,7 +36,7 @@
 
 @mixin header {
   background-color: $color-background-light;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
   font-size: 1.2rem;
   font-weight: 600;
   color: $color-text-dark;
