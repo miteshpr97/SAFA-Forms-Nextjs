@@ -1,0 +1,40 @@
+// styles/main.scss
+
+@use "./variables" as *;
+@use "./mixins" as *;
+
+body {
+  font-family: $font-family-main;
+  background-color: $color-background-light;
+  color: $color-primary;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  @include card;
+}
+
+.btn-primary {
+  background-color: $color-primary;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: darken($color-primary, 5%);
+  }
+}
+
+.btn-accent {
+  background-color: $color-accent;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: $color-accent-hover;
+  }
+}

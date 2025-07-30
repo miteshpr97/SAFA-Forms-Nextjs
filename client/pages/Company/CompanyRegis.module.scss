@@ -1,0 +1,129 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.company-regis {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 70px);
+  overflow: hidden;
+  font-family: $font-family-main;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+
+  .left-section {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: $gradient-primary;
+    color: white;
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+
+    @media (min-width: 768px) {
+      width: 50%;
+    }
+
+    p {
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      max-width: 448px;
+    }
+
+    .learn-more-btn {
+      background-color: $color-warning;
+      color: $color-primary;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      box-shadow: $card-box-shadow;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $color-warning-hover;
+      }
+    }
+  }
+
+  .right-section {
+    width: 100%;
+    padding: 2rem;
+    background-color: $color-background-light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (min-width: 768px) {
+      width: 50%;
+    }
+
+    .form-wrapper {
+      @include card;
+      width: 100%;
+      max-width: 28rem;
+
+      h2 {
+        font-size: 1.125rem;
+        color: $color-text-heading;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        input {
+          @include input;
+        }
+
+        button {
+          width: 100%;
+          padding: 0.5rem 0;
+          font-size: 0.875rem;
+          font-weight: 600;
+          border: none;
+          border-radius: 0.375rem;
+          color: white;
+          background-color: $color-accent;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: $color-accent-hover;
+          }
+
+          &:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+          }
+        }
+
+        .text-sm {
+          font-size: 0.875rem;
+        }
+
+        .text-green-600 {
+          color: #16a34a;
+        }
+
+        .truncate {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}

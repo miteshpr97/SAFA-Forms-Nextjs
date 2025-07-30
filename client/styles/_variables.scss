@@ -1,0 +1,28 @@
+// styles/_variables.scss
+
+// Colors
+$color-primary: #1a315d; // Tailwind blue-600
+$color-secondary: #007a7a; // Tailwind gray-800 (used as secondary)
+$color-accent: #007a7a;
+$color-accent-hover: #006565;
+$color-warning: #ffac00;
+$color-warning-hover: #e69a00;
+$color-success: #16a34a;
+$color-background-light: #f7fafc;
+$color-text-heading: #1a315d;
+$color-text-light: #f8fafc; // Tailwind gray-100
+$color-text-secondary: #828994; // Tailwind gray-600
+$color-text-dark: #1a202c; // Tailwind gray-800
+$background-dark: #1e1e1e; // Tailwind gray-800
+
+// Typography
+$font-family-main: 'Poppins', sans-serif;
+
+// Card
+$card-border-radius: 0.5rem;
+$card-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+$card-padding: 1.5rem;
+
+// Gradients
+$gradient-primary: linear-gradient(135deg, #1a315d, #007a7a);
+$gradient-secondary: linear-gradient(to right, #007a7a, #1a315d);
