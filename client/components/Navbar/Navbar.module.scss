@@ -14,9 +14,16 @@
   z-index: 50;
 
 
-  .logo {
-    width: 9rem;
+.logo {
+    width: 120px;
     margin-right: 0.5rem;
-  }
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    filter: none;
+    /* Ensure logo is not stretched */
+    object-fit: contain;
+    /* Remove any blur effect */
+}
 
 }

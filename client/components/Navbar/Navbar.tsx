@@ -1,24 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
+import Image from 'next/image'
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { Icon } from "@iconify/react";
 // import { AppDispatch } from "@/app/store";
 // import { fetchUser } from "@/features/userSlice";
 
-import "@/styles/Navbar.scss";
+import styles from "./Navbar.module.scss"; // Assuming you have a CSS module for styles
 
 const Navbar = () => {
-//   const dispatch = useDispatch<AppDispatch>();
+  //   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
-  const { user } = useSelector((state: any) => state.user);
-  const role = user?.User?.role || "";
+  //   const { user } = useSelector((state: any) => state.user);
+  //   const role = user?.User?.role || "";
 
   const allLinks = [
     {
@@ -47,17 +48,17 @@ const Navbar = () => {
     },
   ];
 
-  const filteredLinks = allLinks.filter((link) => link.roles.includes(role));
+  //   const filteredLinks = allLinks.filter((link) => link.roles.includes(role));
 
   const isActive = (path: string) => router.pathname.startsWith(path);
 
-//   useEffect(() => {
-//     if (!user) {
-//       dispatch(fetchUser());
-//     } else if (!user.User) {
-//       router.push("/login");
-//     }
-//   }, [user, dispatch, router]);
+  //   useEffect(() => {
+  //     if (!user) {
+  //       dispatch(fetchUser());
+  //     } else if (!user.User) {
+  //       router.push("/login");
+  //     }
+  //   }, [user, dispatch, router]);
 
   const handleLogout = async () => {
     try {
@@ -98,13 +99,13 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light">
+    <nav className={`${styles.navbar} navbar-expand-lg navbar-light`}>
       <div className="flex items-center">
-        <Link href={user?.User ? "/response" : "/dashboard"}>
-          <img src="/Safa Forms logo-1-Fit.png" alt="Logo" className="logo" />
+        <Link href="/">
+          <Image src="/Safa Forms logo-1-Fit.png" alt="Logo" width={120} height={40} className={styles.logo} />
         </Link>
       </div>
-
+      {/*
       <div className="flex items-center gap-4">
         {user?.User && (
           <div className="hidden md:flex items-center gap-6 text-sm">
@@ -220,7 +221,7 @@ const Navbar = () => {
             </>
           )}
         </div>
-      )}
+      )} */}
     </nav>
   );
 };

@@ -8,11 +8,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router"; // ✅ Changed from react-router-dom
 import styles from "./CompanyRegis.module.scss"; // ✅ Using module-based CSS
 
-
-
-
-
-
 interface CompanyFormData {
   company_name: string;
   company_logo: File | null;
@@ -41,7 +36,7 @@ const CompanyRegis = () => {
   });
 
   console.log(styles.companyRegis);
-  
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
@@ -134,6 +129,7 @@ const CompanyRegis = () => {
                 placeholder="Company Name"
                 value={formData.company_name}
                 onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded text-sm focus:border-[#007a7a] focus:ring-[#007a7a]"
                 required
               />
               <input
@@ -142,6 +138,7 @@ const CompanyRegis = () => {
                 placeholder="Company Email"
                 value={formData.company_email}
                 onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded text-sm focus:border-[#007a7a] focus:ring-[#007a7a]"
                 required
               />
               <input
@@ -150,6 +147,7 @@ const CompanyRegis = () => {
                 placeholder="Company Phone"
                 value={formData.company_phone}
                 onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded text-sm focus:border-[#007a7a] focus:ring-[#007a7a]"
                 required
               />
               <input
@@ -158,6 +156,7 @@ const CompanyRegis = () => {
                 placeholder="Company Address"
                 value={formData.company_address}
                 onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded text-sm focus:border-[#007a7a] focus:ring-[#007a7a]"
                 required
               />
               <div className="flex flex-col sm:flex-row gap-2">
@@ -167,6 +166,7 @@ const CompanyRegis = () => {
                   placeholder="Country"
                   value={formData.country}
                   onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded text-sm focus:border-[#007a7a] focus:ring-[#007a7a]"
                   required
                 />
                 <input
@@ -175,6 +175,7 @@ const CompanyRegis = () => {
                   placeholder="State"
                   value={formData.state}
                   onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded text-sm focus:border-[#007a7a] focus:ring-[#007a7a]"
                   required
                 />
               </div>
@@ -185,6 +186,8 @@ const CompanyRegis = () => {
                   placeholder="City"
                   value={formData.city}
                   onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded text-sm focus:border-[#007a7a] focus:ring-[#007a7a]"
+
                   required
                 />
                 <input
@@ -193,15 +196,17 @@ const CompanyRegis = () => {
                   placeholder="Pin Code"
                   value={formData.pinCode}
                   onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded text-sm focus:border-[#007a7a] focus:ring-[#007a7a]"
+
                   required
                 />
               </div>
-              <input
+              {/* <input
                 type="file"
                 name="company_logo"
                 accept="image/*"
                 onChange={handleChange}
-              />
+              /> */}
               {formData.company_logo && (
                 <p className="text-sm mt-1 text-green-600 truncate">
                   Selected: {formData.company_logo.name}
