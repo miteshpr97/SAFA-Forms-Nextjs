@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 
 // Lazy-load the CompanyRegis component
-const CompanyRegis = dynamic(() => import("@/pages/Company/CompanyRegis"), {
+const CompanyRegis = dynamic(() => import("@/pages/company/register"), {
   ssr: false,
 });
 

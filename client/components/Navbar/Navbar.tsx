@@ -1,25 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from 'next/image'
+import Image from "next/image";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { Icon } from "@iconify/react";
-// import { AppDispatch } from "@/app/store";
-// import { fetchUser } from "@/features/userSlice";
 
-import styles from "./Navbar.module.scss"; // Assuming you have a CSS module for styles
+import { AppDispatch, RootState } from "@/store";
+import { fetchUser } from "@/features/userSlice";
+
+import styles from "./Navbar.module.scss";
 
 const Navbar = () => {
-  //   const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
-  //   const { user } = useSelector((state: any) => state.user);
-  //   const role = user?.User?.role || "";
+  const user = useSelector((state: RootState) => state.user.user);
+  const role = user?.role || "";
 
   const allLinks = [
     {
@@ -48,34 +51,14 @@ const Navbar = () => {
     },
   ];
 
-  //   const filteredLinks = allLinks.filter((link) => link.roles.includes(role));
-
+  const filteredLinks = allLinks.filter((link) => link.roles.includes(role));
   const isActive = (path: string) => router.pathname.startsWith(path);
 
-  //   useEffect(() => {
-  //     if (!user) {
-  //       dispatch(fetchUser());
-  //     } else if (!user.User) {
-  //       router.push("/login");
-  //     }
-  //   }, [user, dispatch, router]);
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/v1/user/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      if (response.ok) {
-        localStorage.removeItem("user");
-        router.push("/login");
-      } else {
-        console.error("Logout failed");
-      }
-    } catch (error) {
-      console.error("Error during logout:", error);
+  useEffect(() => {
+    if (!user) {
+      dispatch(fetchUser());
     }
-  };
+  }, [user, dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -98,16 +81,40 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/v1/user/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        localStorage.removeItem("user");
+        router.push("/login");
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
   return (
     <nav className={`${styles.navbar} navbar-expand-lg navbar-light`}>
       <div className="flex items-center">
         <Link href="/">
-          <Image src="/Safa Forms logo-1-Fit.png" alt="Logo" width={120} height={40} className={styles.logo} />
+          <Image
+            src="/Safa Forms logo-1-Fit.png"
+            alt="Logo"
+            width={120}
+            height={40}
+            className={styles.logo}
+          />
         </Link>
       </div>
-      {/*
+
       <div className="flex items-center gap-4">
-        {user?.User && (
+        {user && (
           <div className="hidden md:flex items-center gap-6 text-sm">
             {filteredLinks.map((link) => (
               <Link
@@ -125,19 +132,19 @@ const Navbar = () => {
           </div>
         )}
 
-        {user?.User ? (
+        {user ? (
           <div className="relative" ref={dropdownRef}>
             <button
               className="text-xs cursor-pointer rounded-full bg-blue-500 text-white w-7 h-7 flex items-center justify-center"
               onClick={() => setShowDropdown(!showDropdown)}
             >
-              {user.User.full_name?.charAt(0).toUpperCase()}
+              {user.full_name?.charAt(0).toUpperCase()}
             </button>
             {showDropdown && (
               <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg z-50">
                 <div className="px-4 py-3 border-b flex items-center gap-3">
                   <p className="font-semibold text-sm text-black">
-                    {user.User.full_name}
+                    {user.full_name}
                   </p>
                 </div>
                 <ul className="text-sm py-2">
@@ -152,7 +159,7 @@ const Navbar = () => {
             )}
           </div>
         ) : (
-          <Link href="/login">
+          <Link href="/auth/login" className="text-sm text-gray-700 hover:text-blue-600">
             <button className="bg-[#0b5b6e] text-white px-5 py-2 text-sm rounded hover:bg-[#338496] cursor-pointer">
               Log In
             </button>
@@ -172,7 +179,7 @@ const Navbar = () => {
           ref={mobileMenuRef}
           className="absolute top-full right-0 mt-2 w-full bg-white shadow-md flex flex-col gap-4 px-4 py-4 md:hidden text-sm text-gray-700 z-50"
         >
-          {user?.User ? (
+          {user ? (
             <>
               {filteredLinks.map((link) => (
                 <Link
@@ -221,7 +228,7 @@ const Navbar = () => {
             </>
           )}
         </div>
-      )} */}
+      )}
     </nav>
   );
 };
