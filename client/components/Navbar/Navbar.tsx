@@ -1,15 +1,11 @@
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
 import { Icon } from "@iconify/react";
-
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
-import { fetchUser } from "@/features/userSlice";
-
+import { fetchUser, logoutUser } from "@/features/userSlice";
 import styles from "./Navbar.module.scss";
 
 const Navbar = () => {
@@ -21,8 +17,54 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
-  const user = useSelector((state: RootState) => state.user.user);
+  const { user, status } = useSelector((state: RootState) => state.user);
   const role = user?.role || "";
+
+
+  console.log(user, "User data in navbar");
+  
+
+  useEffect(() => {
+    if (!user && status === "idle") {
+      dispatch(fetchUser());
+    }
+  }, [dispatch, user, status]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !(dropdownRef.current as HTMLElement).contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+      if (
+        mobileMenuRef.current &&
+        !(mobileMenuRef.current as HTMLElement).contains(event.target as Node)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/v1/user/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (response.ok) {
+        dispatch(logoutUser());
+        router.push("/auth/login");
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
 
   const allLinks = [
     {
@@ -53,51 +95,6 @@ const Navbar = () => {
 
   const filteredLinks = allLinks.filter((link) => link.roles.includes(role));
   const isActive = (path: string) => router.pathname.startsWith(path);
-
-  useEffect(() => {
-    if (!user) {
-      dispatch(fetchUser());
-    }
-  }, [user, dispatch]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !(dropdownRef.current as HTMLElement).contains(event.target as Node)
-      ) {
-        setShowDropdown(false);
-      }
-
-      if (
-        mobileMenuRef.current &&
-        !(mobileMenuRef.current as HTMLElement).contains(event.target as Node)
-      ) {
-        setMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/v1/user/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        localStorage.removeItem("user");
-        router.push("/login");
-      } else {
-        console.error("Logout failed");
-      }
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
 
   return (
     <nav className={`${styles.navbar} navbar-expand-lg navbar-light`}>
@@ -209,17 +206,11 @@ const Navbar = () => {
           ) : (
             <>
               <Link
-                href="/login"
+                href="/auth/login"
                 className="hover:text-blue-600"
                 onClick={() => setMenuOpen(false)}
               >
                 Log In
-              </Link>
-              <Link href="#" className="hover:text-blue-600">
-                Templates
-              </Link>
-              <Link href="#" className="hover:text-blue-600">
-                Features
               </Link>
               <hr />
               <button className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
