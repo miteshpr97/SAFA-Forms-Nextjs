@@ -22,10 +22,12 @@ const Navbar = () => {
   const role = user?.role || "";
 
   console.log(user, "User data in navbar");
+  console.log(role);
 
-useEffect(() => {
-  dispatch(fetchUser());
-}, [dispatch]); 
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,10 +50,10 @@ useEffect(() => {
 
 
   useEffect(() => {
-  if (status === "succeeded") {
-    console.log(user, "✅ User data now in navbar");
-  }
-}, [status, user]);
+    if (status === "succeeded") {
+      console.log(user, "✅ User data now in navbar");
+    }
+  }, [status, user]);
 
 
   const handleLogout = async () => {
@@ -84,7 +86,9 @@ useEffect(() => {
   return (
     <nav className={`${styles.navbar} navbar-expand-lg navbar-light`}>
       <div className="flex items-center">
-        <Link href="/">
+        {/* <Link href={user ? "/response" : "/dashboard"}> */}
+        <Link href="/dashboard">
+
           <Image src="/Safa Forms logo-1-Fit.png" alt="Logo" width={120} height={40} className={styles.logo} />
         </Link>
       </div>
@@ -96,9 +100,8 @@ useEffect(() => {
               <Link
                 key={link.name}
                 href={link.to}
-                className={`flex items-center gap-2 no-underline hover:text-blue-600 ${
-                  isActive(link.to) ? "text-[#007a7a] font-semibold" : "text-gray-700"
-                }`}
+                className={`flex items-center gap-2 no-underline hover:text-blue-600 ${isActive(link.to) ? "text-[#007a7a] font-semibold" : "text-gray-700"
+                  }`}
               >
                 <Icon icon={link.icon} className="text-lg" /> {link.name}
               </Link>
@@ -154,9 +157,8 @@ useEffect(() => {
                 <Link
                   key={link.name}
                   href={link.to}
-                  className={`hover:text-blue-600 ${
-                    isActive(link.to) ? "text-blue-600 font-semibold underline" : "text-gray-700"
-                  }`}
+                  className={`hover:text-blue-600 ${isActive(link.to) ? "text-blue-600 font-semibold underline" : "text-gray-700"
+                    }`}
                   onClick={() => setMenuOpen(false)}
                 >
                   <Icon icon={link.icon} className="mr-1" /> {link.name}

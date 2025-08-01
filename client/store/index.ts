@@ -24,19 +24,15 @@
 
 
 
-
-// store/index.ts
-import { configureStore } from '@reduxjs/toolkit';
-import userReducer from '../features/userSlice';
-import toastMiddleware from "../utils/toastMiddleware";
+import { configureStore } from "@reduxjs/toolkit";
+import busTypeReducer from "../features/busTypeSlice";
+import userReducer from "../features/userSlice";
 
 export const store = configureStore({
   reducer: {
+    busType: busTypeReducer,
     user: userReducer,
-    // Add other reducers here if needed
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(toastMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,0 +1,72 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.main-container {
+  @include main-container;
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .dashboard-card {
+    background-color: $background-dark;
+    padding: $card-padding;
+    border-radius: $card-border-radius;
+    box-shadow: $card-box-shadow;
+    border: 1px solid $color-secondary;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+
+      svg {
+        font-size: 1.4rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        color: $color-text-light;
+      }
+    }
+
+    p {
+      color: $color-text-secondary;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .dashboard-button {
+      background-color: $color-accent;
+      color: $color-text-light;
+      font-size: 0.8rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: $card-border-radius;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: $color-accent-hover;
+      }
+    }
+  }
+}
