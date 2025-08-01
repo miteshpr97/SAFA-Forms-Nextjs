@@ -107,6 +107,13 @@
 
 // client/features/userSlice.ts
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+
+//features/userSlice.ts
+
+
+
+// features/userSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -134,6 +141,7 @@ const initialState: UserState = {
   error: null,
 };
 
+// ✅ Thunk to fetch logged-in user
 export const fetchUser = createAsyncThunk<User>(
   "user/fetchUser",
   async (_, { rejectWithValue }) => {
@@ -142,16 +150,16 @@ export const fetchUser = createAsyncThunk<User>(
         withCredentials: true,
       });
 
-      console.log(response.data, "the user data");
-      
+      console.log(response.data.data.User, "FETCHED USER");
 
-       return response.data.data.User;
+      return response.data.data.User;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch user");
     }
   }
 );
 
+// ✅ Thunk to fetch all users
 export const fetchAllUser = createAsyncThunk<User[]>(
   "user/fetchAllUser",
   async (_, { rejectWithValue }) => {
@@ -166,6 +174,7 @@ export const fetchAllUser = createAsyncThunk<User[]>(
   }
 );
 
+// ✅ Create user slice
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -189,7 +198,6 @@ const userSlice = createSlice({
         state.status = "failed";
         state.error = action.payload as string;
       })
-
       .addCase(fetchAllUser.pending, (state) => {
         state.status = "loading";
       })

@@ -1,3 +1,4 @@
+// components/Navbar/Navbar.tsx
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -5,7 +6,7 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
-import { fetchUser, logoutUser } from "@/features/userSlice";
+import { fetchUser, logoutUser } from "../../features/userSlice";
 import styles from "./Navbar.module.scss";
 
 const Navbar = () => {
@@ -20,15 +21,11 @@ const Navbar = () => {
   const { user, status } = useSelector((state: RootState) => state.user);
   const role = user?.role || "";
 
-
   console.log(user, "User data in navbar");
-  
 
-  useEffect(() => {
-    if (!user && status === "idle") {
-      dispatch(fetchUser());
-    }
-  }, [dispatch, user, status]);
+useEffect(() => {
+  dispatch(fetchUser());
+}, [dispatch]); 
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -49,6 +46,14 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+
+  useEffect(() => {
+  if (status === "succeeded") {
+    console.log(user, "✅ User data now in navbar");
+  }
+}, [status, user]);
+
+
   const handleLogout = async () => {
     try {
       const response = await fetch("/api/v1/user/logout", {
@@ -67,30 +72,10 @@ const Navbar = () => {
   };
 
   const allLinks = [
-    {
-      name: "Dashboard",
-      to: "/dashboard",
-      roles: ["admin"],
-      icon: "mdi:view-dashboard-outline",
-    },
-    {
-      name: "Project",
-      to: "/project",
-      roles: ["admin"],
-      icon: "mdi:folder-outline",
-    },
-    {
-      name: "Manage",
-      to: "/manage-forms",
-      roles: ["admin"],
-      icon: "mdi:cog-outline",
-    },
-    {
-      name: "Response",
-      to: "/response",
-      roles: ["admin", "user"],
-      icon: "mdi:chart-bar",
-    },
+    { name: "Dashboard", to: "/dashboard", roles: ["admin"], icon: "mdi:view-dashboard-outline" },
+    { name: "Project", to: "/project", roles: ["admin"], icon: "mdi:folder-outline" },
+    { name: "Manage", to: "/manage-forms", roles: ["admin"], icon: "mdi:cog-outline" },
+    { name: "Response", to: "/response", roles: ["admin", "user"], icon: "mdi:chart-bar" },
   ];
 
   const filteredLinks = allLinks.filter((link) => link.roles.includes(role));
@@ -100,13 +85,7 @@ const Navbar = () => {
     <nav className={`${styles.navbar} navbar-expand-lg navbar-light`}>
       <div className="flex items-center">
         <Link href="/">
-          <Image
-            src="/Safa Forms logo-1-Fit.png"
-            alt="Logo"
-            width={120}
-            height={40}
-            className={styles.logo}
-          />
+          <Image src="/Safa Forms logo-1-Fit.png" alt="Logo" width={120} height={40} className={styles.logo} />
         </Link>
       </div>
 
@@ -118,9 +97,7 @@ const Navbar = () => {
                 key={link.name}
                 href={link.to}
                 className={`flex items-center gap-2 no-underline hover:text-blue-600 ${
-                  isActive(link.to)
-                    ? "text-[#007a7a] font-semibold"
-                    : "text-gray-700"
+                  isActive(link.to) ? "text-[#007a7a] font-semibold" : "text-gray-700"
                 }`}
               >
                 <Icon icon={link.icon} className="text-lg" /> {link.name}
@@ -140,9 +117,7 @@ const Navbar = () => {
             {showDropdown && (
               <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg z-50">
                 <div className="px-4 py-3 border-b flex items-center gap-3">
-                  <p className="font-semibold text-sm text-black">
-                    {user.full_name}
-                  </p>
+                  <p className="font-semibold text-sm text-black">{user.full_name}</p>
                 </div>
                 <ul className="text-sm py-2">
                   <li
@@ -163,10 +138,7 @@ const Navbar = () => {
           </Link>
         )}
 
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-gray-800 text-xl"
-        >
+        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-gray-800 text-xl">
           <Icon icon={menuOpen ? "mdi:close" : "mdi:menu"} />
         </button>
       </div>
@@ -183,9 +155,7 @@ const Navbar = () => {
                   key={link.name}
                   href={link.to}
                   className={`hover:text-blue-600 ${
-                    isActive(link.to)
-                      ? "text-blue-600 font-semibold underline"
-                      : "text-gray-700"
+                    isActive(link.to) ? "text-blue-600 font-semibold underline" : "text-gray-700"
                   }`}
                   onClick={() => setMenuOpen(false)}
                 >
@@ -205,11 +175,7 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link
-                href="/auth/login"
-                className="hover:text-blue-600"
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link href="/auth/login" className="hover:text-blue-600" onClick={() => setMenuOpen(false)}>
                 Log In
               </Link>
               <hr />
