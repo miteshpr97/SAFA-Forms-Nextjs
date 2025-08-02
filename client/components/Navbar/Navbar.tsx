@@ -19,10 +19,11 @@ const Navbar = () => {
   const mobileMenuRef = useRef(null);
 
   const { user, status } = useSelector((state: RootState) => state.user);
+
+  
   const role = user?.role || "";
 
-  console.log(user, "User data in navbar");
-  console.log(role);
+
 
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (status === "succeeded") {
-      console.log(user, "✅ User data now in navbar");
+     
     }
   }, [status, user]);
 

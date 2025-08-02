@@ -35,10 +35,16 @@ interface ProjectState {
 }
 
 interface UserData {
+    user_id: string;
+    full_name: string;
+    email: string;
     role: string;
     company_id: string;
     company_name: string;
+    iat?: number;
+    exp?: number;
 }
+
 
 const Project: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -52,17 +58,21 @@ const Project: React.FC = () => {
     const [userData, setUserData] = useState<UserData | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-      useEffect(() => {
+
+
+
+    useEffect(() => {
         dispatch(fetchProjects());
         (async () => {
-          try {
-            const response = await dispatch(fetchUser()).unwrap();
-            setUserData(response?.User);
-          } catch (err) {
-            console.error("Failed to fetch user:", err);
-          }
+            try {
+                const response = await dispatch(fetchUser()).unwrap();
+
+                setUserData(response);
+            } catch (err) {
+                console.error("Failed to fetch user:", err);
+            }
         })();
-      }, [dispatch]);
+    }, [dispatch]);
 
     useEffect(() => {
         if (userData) {
@@ -79,27 +89,27 @@ const Project: React.FC = () => {
         }
     };
 
-      const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (isSubmitting) return;
         setIsSubmitting(true);
         try {
-          if (editProjectId) {
-            await dispatch(updateProject({ project_id: editProjectId, project_name: editProjectName })).unwrap();
-          } else {
-            await dispatch(addProject(formData)).unwrap();
-          }
-          await dispatch(fetchProjects());
-          setFormData({ ...formData, project_name: "" });
-          setEditProjectId(null);
-          setEditProjectName("");
-          setIsModalOpen(false);
+            if (editProjectId) {
+                await dispatch(updateProject({ project_id: editProjectId, project_name: editProjectName })).unwrap();
+            } else {
+                await dispatch(addProject(formData)).unwrap();
+            }
+            await dispatch(fetchProjects());
+            setFormData({ ...formData, project_name: "" });
+            setEditProjectId(null);
+            setEditProjectName("");
+            setIsModalOpen(false);
         } catch (err) {
-          console.error("Add/update project failed:", err);
+            console.error("Add/update project failed:", err);
         } finally {
-          setIsSubmitting(false);
+            setIsSubmitting(false);
         }
-      };
+    };
 
     const renderStatus = (status?: boolean) => (
         <span className="flex items-center gap-2">
@@ -116,7 +126,7 @@ const Project: React.FC = () => {
             {/* Header */}
             <div className={styles["project-header"]}>
                 <span className="text-xl font-semibold">Project</span>
-                {userData?.role === "admin" && (
+                {userData && userData?.role === "admin" && (
                     <button
                         onClick={() => {
                             setEditProjectId(null);
@@ -124,7 +134,7 @@ const Project: React.FC = () => {
                             setFormData({ ...formData, project_name: "" });
                             setIsModalOpen(true);
                         }}
-                        className="bg-[#ffac00] text-[#1a315d] font-bold px-4 py-2 rounded-lg hover:bg-[#e69a00] transition text-xs flex items-center gap-2"
+                        className="bg-[#ffac00] text-[#1a315d] font-bold px-4 py-2 rounded-lg hover:bg-[#e69a00] transition text-xs flex items-center gap-2 cursor-pointer"
                     >
                         <Icon icon="mdi:plus" className="h-4 w-4" />
                         Add Project
@@ -145,7 +155,7 @@ const Project: React.FC = () => {
                             <p className="text-lg font-semibold">No projects found. Please add a new project.</p>
                         </div>
                     ) : (
-                        <table className="project-table w-full text-sm">
+                        <table className={`${styles["project-table"]} w-full text-sm`}>
                             <thead className="bg-gray-100">
                                 <tr>
                                     <th>S.No</th>
@@ -166,7 +176,7 @@ const Project: React.FC = () => {
                                         <td>{project.updated_at ? new Date(project.updated_at).toLocaleDateString() : "N/A"}</td>
                                         <td>
                                             <button
-                                                className="text-blue-600 hover:underline flex items-center gap-1"
+                                                className="text-blue-600 hover:underline flex items-center gap-1  cursor-pointer"
                                                 onClick={() => {
                                                     setEditProjectId(project.project_id);
                                                     setEditProjectName(project.project_name);

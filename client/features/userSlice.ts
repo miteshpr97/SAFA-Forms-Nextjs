@@ -3,15 +3,28 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// interface User {
+//   user_id: string;
+//   full_name: string;
+//   email: string;
+//   role: string;
+//   token: string;
+//   companyId: string;
+//   company_name: string;
+// }
+
+
 interface User {
   user_id: string;
   full_name: string;
   email: string;
   role: string;
-  token: string;
-  companyId: string;
+  company_id: string;
   company_name: string;
+  iat?: number;
+  exp?: number;
 }
+
 
 interface UserState {
   user: User | null;
@@ -38,7 +51,9 @@ export const fetchUser = createAsyncThunk<User>(
 
       console.log(response.data, "FETCHED USER");
 
-      return response.data.data.User;
+      // return response.data.data;
+        return response.data.data.User;
+
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch user");
     }

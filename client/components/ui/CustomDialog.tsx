@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -14,7 +15,7 @@ import { ReactNode } from "react";
 interface CustomDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  title: string;
+  title: any;
   description?: string;
   children: ReactNode;
   footer?: ReactNode;
