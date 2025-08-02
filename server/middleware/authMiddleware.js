@@ -3,6 +3,11 @@ import { ApiError } from '../utils/ApiError.js';
 
 const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
+
+    console.log(token);
+    
+
+
     if (!token) throw new ApiError(401, "Access Denied");
 
   try {

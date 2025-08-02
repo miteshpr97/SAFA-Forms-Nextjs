@@ -27,11 +27,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import busTypeReducer from "../features/busTypeSlice";
 import userReducer from "../features/userSlice";
+import projectReducer from "../features/projectSlice";
 
 export const store = configureStore({
   reducer: {
     busType: busTypeReducer,
     user: userReducer,
+    project: projectReducer,
   },
 });
 

@@ -1,0 +1,19 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.main-container {
+  @include main-container;
+}
+
+.project-input {
+  @include input;
+  margin-bottom: 1rem;
+}
+
+.project-header {
+  @include header;
+}
+
+.project-table {
+  @include table-style;
+}
